@@ -256,7 +256,7 @@
     const LOCAL_STORAGE_DATE_KEY = 'huryu_claps_date';
     let hideTimeout; 
     
-    // 💡 자료 포맷팅 함수: <br> 기준으로 마지막 줄만 <b> 태그를 적용
+    // 자료 포맷팅 함수
     function formatTitle(title) {
         let cleanTitle = title.replace(/<br>/g, '\n'); 
         
@@ -273,7 +273,7 @@
     }
 
 
-    // 💡 ARCHIVES 객체 (수학 자료 띄어쓰기 수정)
+    // ARCHIVES 객체
     const ARCHIVES = {
         'korean': {
             title: "국어", 
@@ -298,7 +298,6 @@
             items: [
                 { 
                     link: "https://3arch2nd.github.io/symmetry_v2/", 
-                    // 🚀 [수정] 띄어쓰기 제거
                     title: "[5학년] 2학기 3단원 <br>합동과 대칭 <br>선대칭/점대칭도형 그리기" 
                 }
             ]
@@ -324,7 +323,7 @@
         'main': {} 
     };
     
-    // 박수 기능 로직 (유지)
+    // 박수 기능 로직
     function getTodayClaps() {
         const today = new Date().toDateString();
         const storedDate = localStorage.getItem(LOCAL_STORAGE_DATE_KEY);
@@ -344,31 +343,51 @@
         } catch (error) { console.error('Failed to fetch clap count:', error); }
     }
 
+    // 🚀 [수정] 쿨다운 로직이 추가된 handleClap 함수
     async function handleClap() {
-        let todayClaps = getTodayClaps();
         const clapBox = document.getElementById('clap-box');
+        
+        // 1. 이미 비활성화 상태(일일 한도 또는 쿨다운)면 동작 중지
+        if (clapBox.classList.contains('disabled')) {
+            return; 
+        }
+
+        let todayClaps = getTodayClaps();
         const limitMessage = document.getElementById('limit-message');
         clearTimeout(hideTimeout);
+        
+        // 2. 쿨다운 시작: 즉시 버튼 비활성화 (0.5초간 연타 방지)
+        clapBox.classList.add('disabled');
+
+        // 3. 일일 한도 초과 확인 (카운트 증가 전)
         if (todayClaps >= CLAP_LIMIT) {
-            clapBox.classList.add('disabled');
             limitMessage.style.display = 'block';
-            hideTimeout = setTimeout(() => { limitMessage.style.display = 'none'; }, 2000); 
+            hideTimeout = setTimeout(() => { limitMessage.style.display = 'none'; }, 2000);
+            // 한도에 도달했으므로 비활성화를 유지하고 (쿨다운을 해제하지 않고) 종료
             return;
         }
+
+        // 4. 박수 처리
         todayClaps += 1;
         setTodayClaps(todayClaps);
         try {
             await fetch(API_ENDPOINT, { method: 'POST' });
             await updateClapCount();
         } catch (error) { console.error('Failed to post clap:', error); }
-        if (todayClaps >= CLAP_LIMIT) {
-            clapBox.classList.add('disabled');
+        
+        // 5. 쿨다운 해제 또는 영구 비활성화
+        if (todayClaps < CLAP_LIMIT) {
+            // 0.5초(500ms) 후 쿨다운 해제 (다시 클릭 가능)
+            setTimeout(() => { clapBox.classList.remove('disabled'); }, 500);
+        } else {
+            // 일일 한도 도달: 영구 비활성화 유지 및 메시지 표시
             limitMessage.style.display = 'block';
             hideTimeout = setTimeout(() => { limitMessage.style.display = 'none'; }, 2000); 
+            // 'disabled' 클래스는 그대로 유지되어 영구 비활성화됩니다.
         }
     }
 
-    // 💡 박수 UI 렌더링 함수
+    // 박수 UI 렌더링 함수
     function renderClapUI() {
         const clapArea = document.getElementById('clap-area');
         clapArea.innerHTML = `
@@ -442,12 +461,14 @@
         contentDisplay.innerHTML = html;
     }
     
+    // 전역 스코프에 노출
     window.handleClap = handleClap;
     window.updateClapCount = updateClapCount;
     window.getTodayClaps = getTodayClaps;
     window.setTodayClaps = setTodayClaps;
     window.loadArchive = loadArchive;
 
+    // 초기 로딩
     loadMainPage();
 </script>
 </body>
