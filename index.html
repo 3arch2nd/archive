@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     
     <style>
+        /* 폰트 및 기본 스타일 초기화 */
         body {
             font-family: 'Gowun Dodum', sans-serif;
             margin: 0;
@@ -20,6 +21,7 @@
             overflow-x: hidden;        
         }
 
+        /* 포스트잇 링크 컨테이너 */
         .sticky-note-links {
             width: 90%; 
             max-width: 750px; 
@@ -30,6 +32,7 @@
             z-index: 5;
         }
 
+        /* 개별 포스트잇 스타일 */
         .sticky-note-link {
             position: absolute;
             height: 28px; 
@@ -68,6 +71,7 @@
             box-shadow: none; 
         }
         
+        /* 메인 폴더 컨테이너 스타일 */
         .main-folder-container {
             width: 90%; 
             max-width: 750px; 
@@ -152,6 +156,7 @@
             padding-bottom: 100px; 
         }
 
+        /* 웹 박수 컨테이너 스타일 */
         .clap-container {
             position: absolute; 
             left: 20px; 
@@ -199,7 +204,18 @@
         .item-title { font-size: 15px; font-weight: normal; line-height: 1.4; margin: 0; white-space: pre-wrap; }
         .item-title b { font-weight: bold; }
         #subject-selector { padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); font-family: 'Gowun Dodum', sans-serif; font-size: 16px; float: right; width: 100%; max-width: 180px; box-sizing: border-box; cursor: pointer; margin-bottom: 0; }
-        #subject-selector:focus { outline: none; box-shadow: 0 0 0 1px #888; }
+        #subject-selector:focus { outline: none; box-shadow: 0 0 0 2px rgba(136, 136, 136, 0.4); }
+
+        /* 📱 모바일 반응성 개선 (최대 너비 550px 이하) */
+        @media (max-width: 550px) {
+            .folder-tab { width: 130px; font-size: 13px; }
+            .sticky-note-link[data-link="indischool"] { left: 155px; font-size: 11px; }
+            .sticky-note-link[data-link="geulbora"] { left: 235px; font-size: 11px; }
+            #subject-selector { max-width: 110px; font-size: 13px; padding: 5px 8px; line-height: 1.2; }
+            .main-page-text-content { font-size: 16px; margin-bottom: 15px; }
+            .archive-list-grid { grid-template-columns: 1fr; }
+            .main-page-construction { font-size: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -256,7 +272,6 @@
     const LOCAL_STORAGE_DATE_KEY = 'huryu_claps_date';
     let hideTimeout; 
     
-    // 자료 포맷팅 함수
     function formatTitle(title) {
         let cleanTitle = title.replace(/<br>/g, '\n'); 
         
@@ -273,7 +288,6 @@
     }
 
 
-    // ARCHIVES 객체
     const ARCHIVES = {
         'korean': {
             title: "국어", 
@@ -343,47 +357,42 @@
         } catch (error) { console.error('Failed to fetch clap count:', error); }
     }
 
-    // 🚀 [수정] 쿨다운 로직이 추가된 handleClap 함수
     async function handleClap() {
         const clapBox = document.getElementById('clap-box');
         
-        // 1. 이미 비활성화 상태(일일 한도 또는 쿨다운)면 동작 중지
-        if (clapBox.classList.contains('disabled')) {
-            return; 
-        }
+        // 쿨다운 중이면 바로 종료
+        if (clapBox.classList.contains('disabled') && getTodayClaps() < CLAP_LIMIT) { return; } 
 
         let todayClaps = getTodayClaps();
         const limitMessage = document.getElementById('limit-message');
         clearTimeout(hideTimeout);
         
-        // 2. 쿨다운 시작: 즉시 버튼 비활성화 (0.5초간 연타 방지)
+        // 쿨다운 시작/영구 비활성화 상태
         clapBox.classList.add('disabled');
 
-        // 3. 일일 한도 초과 확인 (카운트 증가 전)
         if (todayClaps >= CLAP_LIMIT) {
+            // 한도 초과 시: 버튼은 비활성화 유지, 메시지 표시
             limitMessage.style.display = 'block';
             hideTimeout = setTimeout(() => { limitMessage.style.display = 'none'; }, 2000);
-            // 한도에 도달했으므로 비활성화를 유지하고 (쿨다운을 해제하지 않고) 종료
             return;
         }
 
-        // 4. 박수 처리
         todayClaps += 1;
         setTodayClaps(todayClaps);
+
         try {
             await fetch(API_ENDPOINT, { method: 'POST' });
             await updateClapCount();
         } catch (error) { console.error('Failed to post clap:', error); }
         
-        // 5. 쿨다운 해제 또는 영구 비활성화
+        // 쿨다운 해제 또는 영구 비활성화
         if (todayClaps < CLAP_LIMIT) {
-            // 0.5초(500ms) 후 쿨다운 해제 (다시 클릭 가능)
+            // 쿨다운 해제 (0.5초 후)
             setTimeout(() => { clapBox.classList.remove('disabled'); }, 500);
         } else {
             // 일일 한도 도달: 영구 비활성화 유지 및 메시지 표시
             limitMessage.style.display = 'block';
             hideTimeout = setTimeout(() => { limitMessage.style.display = 'none'; }, 2000); 
-            // 'disabled' 클래스는 그대로 유지되어 영구 비활성화됩니다.
         }
     }
 
@@ -461,7 +470,7 @@
         contentDisplay.innerHTML = html;
     }
     
-    // 전역 스코프에 노출
+    // 💡 [중요] 전역 스코프에 노출
     window.handleClap = handleClap;
     window.updateClapCount = updateClapCount;
     window.getTodayClaps = getTodayClaps;
