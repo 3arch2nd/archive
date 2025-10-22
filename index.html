@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>휴르쌤의 아카이브</title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/fpFRaos.png">
-    <link rel="shortcut icon" href="https://i.imgur.com/fpFRaos.png">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     
     <style>
@@ -188,7 +186,7 @@
         .main-footer {
             text-align: center;
             font-size: 12px; 
-            color: #ccc; 
+            color: #6c757d; 
             padding: 10px 0;
             margin-top: 10px;
         }
@@ -384,17 +382,14 @@
         
         @media (max-width: 550px) {
             .folder-tab { width: 130px; font-size: 13px; }
-            
-            /* [최종 수정] 모바일 포스트잇 위치 조정 */
             .sticky-note-link { font-size: 11px; padding: 3px 8px; height: 25px; top: -31px !important; } 
             
-            /* [최종 수정] 모바일 태그 버튼 배열 조정 */
             .link-guide-box {
-                min-width: unset; /* 기본 min-width 해제 */
-                padding: 8px 6px; /* 좌우 패딩 줄여 공간 확보 */
+                min-width: unset; 
+                padding: 8px 6px; 
             }
             .link-guide-container {
-                flex-wrap: nowrap; /* 줄바꿈 방지 */
+                flex-wrap: nowrap; 
             }
 
             .sticky-note-link[data-link="indischool"] { left: 155px; } 
@@ -523,6 +518,11 @@
             subjectName: "수학", 
             items: [
                 { 
+                    link: "https://3arch2nd.github.io/gugu/", 
+                    title: "[2학년] 2학기 2단원<br>(베타 테스트 중) 곱셈구구 <br>곱셈구구 첫걸음", 
+                    linkType: "webapp" 
+                },
+                { 
                     link: "https://3arch2nd.github.io/symmetry_v2/", 
                     title: "[5학년] 2학기 3단원 <br>합동과 대칭 <br>선대칭/점대칭도형 그리기", 
                     linkType: "webapp" 
@@ -625,7 +625,7 @@
                 <div id="total-clap-counter">로딩 중...</div>
                 
                 <div id="limit-message">
-                    박수는 하루에 <br> ${CLAP_LIMIT}번까지만 <br> 보낼 수 있습니다💛
+                    박수는 하루에 <br> ${CLAP_LIMIT}번까지만 <br> 보낼 수 있습니다💖
                 </div>
             </div>
         `;
@@ -652,7 +652,7 @@
                 만들고 싶은 것을 만듭니다👾
             </p>
             
-            <h2 id="link-guide-title">🔗 링크 구분</h2>
+            <h2 id="link-guide-title">🔗 링크 안내</h2>
             <div class="link-guide-container">
                 <div id="tag-indischool" class="link-guide-box indischool" data-tag="indischool" onclick="filterByTag('indischool', '인디스쿨', this)">인디스쿨</div>
                 <div id="tag-webapp" class="link-guide-box webapp" data-tag="webapp" onclick="filterByTag('webapp', '웹 앱', this)">웹 앱</div>
