@@ -16,14 +16,14 @@
             background-color: #f0f0f0;
             display: flex;             
             flex-direction: column;   
-            justify-content: center;   
-            align-items: center;       
-            min-height: 100vh;         
-            padding-top: 20px;         
+            justify-content: center;    
+            align-items: center;        
+            min-height: 100vh;          
+            padding-top: 20px;          
         }
         
         html {
-            overflow-x: hidden;        
+            overflow-x: hidden;         
         }
 
         ::-webkit-scrollbar {
@@ -520,13 +520,20 @@
             title: "수학", 
             subjectName: "수학", 
             items: [
+                // 🐛 추가된 항목: 곱셈구구 앞에 위치
+                {
+                    link: "https://point.3arch2nd.site/", 
+                    title: "[5학년] 2학기 4단원<br>소수의 곱셈<br>유형별 세로셈 연습", 
+                    linkType: "webapp" 
+                },
+                // 🐛 기존 항목 수정: '(베타 테스트 중)' 문구 제거
                 { 
                     link: "https://gugu32.netlify.app/", 
-                    title: "[2학년] 2학기 2단원<br>(베타 테스트 중) 곱셈구구 <br>곱셈구구 첫걸음", 
+                    title: "[2학년] 2학기 2단원<br>곱셈구구<br>곱셈구구 첫걸음", 
                     linkType: "webapp" 
                 },
                 { 
-                    link: "https://symmetry32.netlify.app/", 
+                    link: "symmetry32.netlify.app/", 
                     title: "[5학년] 2학기 3단원 <br>합동과 대칭 <br>선대칭/점대칭도형 그리기", 
                     linkType: "webapp" 
                 }
@@ -628,7 +635,7 @@
                 <div id="total-clap-counter">로딩 중...</div>
                 
                 <div id="limit-message">
-                    박수는 하루에 <br> ${CLAP_LIMIT}번까지만 <br> 보낼 수 있습니다💛
+                    박수는 하루에 <br> ${CLAP_LIMIT}번까지만 <br> 보낼 수 있습니다💖
                 </div>
             </div>
         `;
@@ -652,7 +659,7 @@
         
         contentDisplay.innerHTML = `
             <p class="main-page-text-content">
-                이것저것 수업 자료를 만듭니다👾
+                만들고 싶은 것을 만듭니다👾
             </p>
             
             <h2 id="link-guide-title">🔗 링크 안내</h2>
@@ -721,7 +728,7 @@
         pageHeaderTitle.innerHTML = `${data.title} 자료`; 
         
         if (!data || data.items.length === 0) {
-              contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
+             contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
             return;
         }
 
