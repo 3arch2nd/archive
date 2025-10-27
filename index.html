@@ -158,6 +158,10 @@
             flex-direction: column; 
             height: 100%; 
             
+            /* ************ 핵심 변경: 최대 높이 제한 ************ */
+            max-height: 65vh; /* 데스크톱/큰 화면에서 최대 높이 제한 */
+            max-height: calc(100vh - 120px); /* 화면 크기에 따른 절대 최대 높이 제한 */
+            /* ********************************************* */
         }
         
         .top-control-container { 
@@ -170,7 +174,7 @@
         #content-area-wrapper { 
               flex-grow: 1;
               min-height: 0; 
-              overflow-y: auto; 
+              overflow-y: auto; /* 내용이 넘칠 때 스크롤이 생성되는 부분 */
               padding-right: 0; 
               margin-right: 0; 
         }
@@ -443,6 +447,11 @@
                 height: 90px; 
             }
             
+            /* ************ 모바일 반응형 추가 ************ */
+            .folder-paper {
+                max-height: calc(100vh - 100px); /* 모바일에서는 최대 높이를 좀 더 유연하게 조정 */
+            }
+            /* ****************************************** */
         }
     </style>
 </head>
