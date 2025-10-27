@@ -11,23 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6709097234181122"
-          crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
 
     <style>
         body {
             font-family: 'Gowun Dodum', sans-serif;
             margin: 0;
             background-color: #f0f0f0;
-            display: flex;             
-            flex-direction: column;   
+            display: flex;                
+            flex-direction: column;     
             justify-content: center;    
-            align-items: center;        
-            min-height: 100vh;          
-            padding-top: 20px;          
+            align-items: center;          
+            min-height: 100vh;            
+            padding-top: 20px;            
         }
         
         html {
-            overflow-x: hidden;         
+            overflow-x: hidden;           
         }
 
         ::-webkit-scrollbar {
@@ -157,6 +157,7 @@
             display: flex; 
             flex-direction: column; 
             height: 100%; 
+            
         }
         
         .top-control-container { 
@@ -169,7 +170,7 @@
         #content-area-wrapper { 
               flex-grow: 1;
               min-height: 0; 
-              overflow-y: auto;
+              overflow-y: auto; 
               padding-right: 0; 
               margin-right: 0; 
         }
@@ -441,6 +442,7 @@
             .ad-placeholder {
                 height: 90px; 
             }
+            
         }
     </style>
 </head>
@@ -764,7 +766,7 @@
         pageHeaderTitle.innerHTML = `${data.title} 자료`; 
         
         if (!data || data.items.length === 0) {
-              contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
+             contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
             return;
         }
 
@@ -812,11 +814,11 @@
         }
 
         try {
-             if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
-                 window.adsbygoogle.push({});
-             }
+              if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
+                  window.adsbygoogle.push({});
+              }
         } catch(e) {
-             console.error('Failed to push adsbygoogle:', e);
+            console.error('Failed to push adsbygoogle:', e);
         }
     }
     
