@@ -11,23 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6709097234181122"
-            crossorigin="anonymous"></script>
+          crossorigin="anonymous"></script>
 
     <style>
         body {
             font-family: 'Gowun Dodum', sans-serif;
             margin: 0;
             background-color: #f0f0f0;
-            display: flex;                
-            flex-direction: column;     
+            display: flex;             
+            flex-direction: column;   
             justify-content: center;    
-            align-items: center;          
-            min-height: 100vh;            
-            padding-top: 20px;            
+            align-items: center;        
+            min-height: 100vh;          
+            padding-top: 20px;          
         }
         
         html {
-            overflow-x: hidden;           
+            overflow-x: hidden;         
         }
 
         ::-webkit-scrollbar {
@@ -157,11 +157,6 @@
             display: flex; 
             flex-direction: column; 
             height: 100%; 
-            
-            /* ************ 핵심 변경: 최대 높이 제한 ************ */
-            max-height: 65vh; /* 데스크톱/큰 화면에서 최대 높이 제한 */
-            max-height: calc(100vh - 120px); /* 화면 크기에 따른 절대 최대 높이 제한 */
-            /* ********************************************* */
         }
         
         .top-control-container { 
@@ -174,7 +169,7 @@
         #content-area-wrapper { 
               flex-grow: 1;
               min-height: 0; 
-              overflow-y: auto; /* 내용이 넘칠 때 스크롤이 생성되는 부분 */
+              overflow-y: auto;
               padding-right: 0; 
               margin-right: 0; 
         }
@@ -446,12 +441,6 @@
             .ad-placeholder {
                 height: 90px; 
             }
-            
-            /* ************ 모바일 반응형 추가 ************ */
-            .folder-paper {
-                max-height: calc(100vh - 100px); /* 모바일에서는 최대 높이를 좀 더 유연하게 조정 */
-            }
-            /* ****************************************** */
         }
     </style>
 </head>
@@ -775,7 +764,7 @@
         pageHeaderTitle.innerHTML = `${data.title} 자료`; 
         
         if (!data || data.items.length === 0) {
-             contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
+              contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
             return;
         }
 
@@ -823,11 +812,11 @@
         }
 
         try {
-              if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
-                  window.adsbygoogle.push({});
-              }
+             if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
+                 window.adsbygoogle.push({});
+             }
         } catch(e) {
-            console.error('Failed to push adsbygoogle:', e);
+             console.error('Failed to push adsbygoogle:', e);
         }
     }
     
