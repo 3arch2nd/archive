@@ -10,6 +10,9 @@
     <link rel="shortcut icon" href="https://i.imgur.com/fpFRaos.png">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6709097234181122"
+          crossorigin="anonymous"></script>
+
     <style>
         body {
             font-family: 'Gowun Dodum', sans-serif;
@@ -164,11 +167,11 @@
         }
         
         #content-area-wrapper { 
-             flex-grow: 1;
-             min-height: 0; 
-             overflow-y: auto;
-             padding-right: 0; 
-             margin-right: 0; 
+              flex-grow: 1;
+              min-height: 0; 
+              overflow-y: auto;
+              padding-right: 0; 
+              margin-right: 0; 
         }
         
         #filtered-archive-result {
@@ -180,10 +183,10 @@
         }
         
         #content-display {
-             flex-grow: 1;
-             min-height: 0;
-             display: flex; 
-             flex-direction: column;
+              flex-grow: 1;
+              min-height: 0;
+              display: flex; 
+              flex-direction: column;
         }
 
 
@@ -365,6 +368,7 @@
             color: #333; 
             transition: box-shadow 0.2s; 
             overflow: hidden; 
+            background-color: #ffffff; 
         }
         .archive-item:hover { box-shadow: 4px 8px rgba(0, 0, 0, 0.1); }
         .item-content { 
@@ -384,6 +388,35 @@
         }
         .item-title b { font-weight: bold; }
         
+        .ad-placeholder {
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            background-color: #ffffff; 
+            text-decoration: none;
+            color: #333;
+            transition: box-shadow 0.2s; 
+            overflow: hidden; 
+            
+            height: 90px; 
+            box-sizing: border-box; 
+            padding: 10px; 
+        }
+        
+        .ad-placeholder:hover {
+             box-shadow: 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+        
+        .ad-placeholder .adsbygoogle {
+            display: block;
+            width: 100%; 
+            height: 100%; 
+            min-height: 80px; 
+        }
+
         @media (max-width: 550px) {
             .folder-tab { width: 130px; font-size: 13px; }
             .sticky-note-link { font-size: 11px; padding: 3px 8px; height: 25px; top: -31px !important; } 
@@ -404,8 +437,12 @@
             #link-guide-title { font-size: 15px; } 
             .archive-list-grid { grid-template-columns: 1fr; }
             .link-guide-box { font-size: 13px; }
+            
+            .ad-placeholder {
+                height: 90px; 
+            }
         }
-        </style>
+    </style>
 </head>
 <body>
     
@@ -727,7 +764,7 @@
         pageHeaderTitle.innerHTML = `${data.title} 자료`; 
         
         if (!data || data.items.length === 0) {
-             contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
+              contentDisplay.innerHTML = `<div class="archive-list"><p style="color: #ff3333;">아직 등록된 자료가 없습니다.</p></div>`;
             return;
         }
 
@@ -753,13 +790,33 @@
                 </a>
             `;
         });
+        
+        html += `
+            <div class="ad-placeholder">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-gw-3+1f-3d+2z"
+                     data-ad-client="ca-pub-6709097234181122"
+                     data-ad-slot="7790477251"
+                     id="dynamic-adsense-ad"></ins>
+            </div>
+        `;
 
         html += '</div>'; 
         
         if (containerId === 'content-display') {
-             container.innerHTML = `<div class="archive-list">${html}</div>`;
+              container.innerHTML = `<div class="archive-list">${html}</div>`;
         } else {
             container.innerHTML += html;
+        }
+
+        try {
+             if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
+                 window.adsbygoogle.push({});
+             }
+        } catch(e) {
+             console.error('Failed to push adsbygoogle:', e);
         }
     }
     
