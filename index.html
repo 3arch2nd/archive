@@ -798,22 +798,38 @@
         font-size: 24px; 
         z-index: 9999;   
         pointer-events: none; 
-        transform: translate(-100px, -100px);
-        transition: transform 0.08s ease-out; 
-        will-change: transform;
+        transform: translate(-100px, -100px); 
+        
+        
+        transition: transform 0.08s ease-out, opacity 0.2s ease; 
+        opacity: 0; 
+        will-change: transform, opacity;
     }
+
     
     @media (hover: none) and (pointer: coarse) {
         .mouse-tracer { display: none; }
     }
 </style>
+
 <div id="mouse-tracer" class="mouse-tracer">👾</div>
+
 <script>
+    const tracer = document.getElementById('mouse-tracer');
+
+    
     document.addEventListener('mousemove', (e) => {
-        const tracer = document.getElementById('mouse-tracer');
         if (tracer) {
+            tracer.style.opacity = '1'; 
             
             tracer.style.transform = `translate(${e.clientX + 15}px, ${e.clientY + 15}px)`;
+        }
+    });
+
+   
+    document.addEventListener('mouseleave', () => {
+        if (tracer) {
+            tracer.style.opacity = '0';
         }
     });
 </script>
