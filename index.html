@@ -17,10 +17,12 @@
             background-color: #f0f0f0;
             display: flex;             
             flex-direction: column;   
-            justify-content: center;    
+            /* justify-content: center;  <-- [수정] 이 부분이 내용을 위로 밀어 올리는 원인이었습니다. 삭제했습니다! */  
             align-items: center;        
             min-height: 100vh;          
-            padding-top: 20px;          
+            padding-top: 60px; /* <-- [수정] 위쪽 마진이 고정되도록 20px에서 60px로 넉넉하게 늘렸습니다. (탭이 잘리지 않게) */ 
+            padding-bottom: 40px; /* <-- [추가] 내용이 많아졌을 때 아래쪽도 여유가 있도록 추가했습니다. */   
+            box-sizing: border-box; /* <-- [추가] 패딩이 전체 높이에 포함되도록 하여 스크롤 계산을 정확하게 합니다. */
         }
         
         html {
