@@ -795,15 +795,14 @@
         position: fixed;
         top: 0;
         left: 0;
-        font-size: 24px; 
-        z-index: 9999;   
+        font-size: 24px;
+        z-index: 9999;
         pointer-events: none; 
         transform: translate(-100px, -100px); 
         
         
-        transition: transform 0.08s ease-out, opacity 0.2s ease; 
-        opacity: 0; 
-        will-change: transform, opacity;
+        transition: transform 0.08s ease-out, opacity 0.2s;
+        will-change: transform;
     }
 
     
@@ -816,21 +815,45 @@
 
 <script>
     const tracer = document.getElementById('mouse-tracer');
+    let lastX = 0;
+    let lastY = 0;
 
     
     document.addEventListener('mousemove', (e) => {
-        if (tracer) {
-            tracer.style.opacity = '1'; 
-            
-            tracer.style.transform = `translate(${e.clientX + 15}px, ${e.clientY + 15}px)`;
-        }
+        if (!tracer) return;
+        
+        lastX = e.clientX;
+        lastY = e.clientY;
+
+        tracer.style.opacity = '1';
+        tracer.style.transform = `translate(${lastX + 15}px, ${lastY + 15}px)`;
+        
+        tracer.style.transition = 'transform 0.08s ease-out, opacity 0.2s';
     });
 
-   
+    
     document.addEventListener('mouseleave', () => {
-        if (tracer) {
-            tracer.style.opacity = '0';
+        if (!tracer) return;
+
+        
+        let exitX = lastX + 15;
+        let exitY = lastY + 15;
+
+        
+        if (lastX < 20) {
+            exitX = -50; 
         }
+        
+        
+        if (lastY < 20) {
+            exitY = -50;
+        }
+
+        
+        tracer.style.transform = `translate(${exitX}px, ${exitY}px)`;
+        
+        
+        tracer.style.opacity = '0';
     });
 </script>
 </body>
