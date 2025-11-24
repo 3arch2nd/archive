@@ -17,12 +17,11 @@
             background-color: #f0f0f0;
             display: flex;             
             flex-direction: column;   
-            /* justify-content: center;  <-- [수정] 이 부분이 내용을 위로 밀어 올리는 원인이었습니다. 삭제했습니다! */  
             align-items: center;        
             min-height: 100vh;          
-            padding-top: 60px; /* <-- [수정] 위쪽 마진이 고정되도록 20px에서 60px로 넉넉하게 늘렸습니다. (탭이 잘리지 않게) */ 
-            padding-bottom: 40px; /* <-- [추가] 내용이 많아졌을 때 아래쪽도 여유가 있도록 추가했습니다. */   
-            box-sizing: border-box; /* <-- [추가] 패딩이 전체 높이에 포함되도록 하여 스크롤 계산을 정확하게 합니다. */
+            padding-top: 60px; 
+            padding-bottom: 40px; 
+            box-sizing: border-box; 
         }
         
         html {
@@ -790,6 +789,33 @@
     window.filterByTag = filterByTag; 
 
     loadMainPage();
+</script>
+<style>
+    .mouse-tracer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        font-size: 24px; 
+        z-index: 9999;   
+        pointer-events: none; 
+        transform: translate(-100px, -100px);
+        transition: transform 0.08s ease-out; 
+        will-change: transform;
+    }
+    
+    @media (hover: none) and (pointer: coarse) {
+        .mouse-tracer { display: none; }
+    }
+</style>
+<div id="mouse-tracer" class="mouse-tracer">👾</div>
+<script>
+    document.addEventListener('mousemove', (e) => {
+        const tracer = document.getElementById('mouse-tracer');
+        if (tracer) {
+            
+            tracer.style.transform = `translate(${e.clientX + 15}px, ${e.clientY + 15}px)`;
+        }
+    });
 </script>
 </body>
 </html>
