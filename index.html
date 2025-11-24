@@ -797,15 +797,12 @@
         left: 0;
         font-size: 24px;
         z-index: 9999;
-        pointer-events: none; 
+        pointer-events: none;
         transform: translate(-100px, -100px); 
-        
-        
-        transition: transform 0.08s ease-out, opacity 0.2s;
         will-change: transform;
+        opacity: 0; 
     }
 
-    
     @media (hover: none) and (pointer: coarse) {
         .mouse-tracer { display: none; }
     }
@@ -815,45 +812,43 @@
 
 <script>
     const tracer = document.getElementById('mouse-tracer');
-    let lastX = 0;
-    let lastY = 0;
+    let isHidden = true; 
 
-    
     document.addEventListener('mousemove', (e) => {
         if (!tracer) return;
-        
-        lastX = e.clientX;
-        lastY = e.clientY;
 
-        tracer.style.opacity = '1';
-        tracer.style.transform = `translate(${lastX + 15}px, ${lastY + 15}px)`;
-        
-        tracer.style.transition = 'transform 0.08s ease-out, opacity 0.2s';
+        const targetX = e.clientX + 15;
+        const targetY = e.clientY + 15;
+
+        if (isHidden) {
+            tracer.style.transition = 'none'; 
+            
+            tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
+            
+            void tracer.offsetWidth; 
+            
+            tracer.style.transition = 'transform 0.08s ease-out, opacity 0.2s';
+            tracer.style.opacity = '1';
+            
+            isHidden = false; 
+        } else {
+            tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
+        }
     });
 
-    
-    document.addEventListener('mouseleave', () => {
+    document.addEventListener('mouseleave', (e) => {
         if (!tracer) return;
-
         
-        let exitX = lastX + 15;
-        let exitY = lastY + 15;
-
-        
-        if (lastX < 20) {
-            exitX = -50; 
-        }
-        
-        
-        if (lastY < 20) {
-            exitY = -50;
-        }
-
-        
-        tracer.style.transform = `translate(${exitX}px, ${exitY}px)`;
-        
-        
+        isHidden = true;
         tracer.style.opacity = '0';
+
+        let exitX = e.clientX + 15;
+        let exitY = e.clientY + 15;
+        
+        if (e.clientX < 50) exitX = -50;
+        if (e.clientY < 50) exitY = -50;
+
+        tracer.style.transform = `translate(${exitX}px, ${exitY}px)`;
     });
 </script>
 </body>
