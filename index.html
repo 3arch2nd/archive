@@ -801,55 +801,63 @@
         transform: translate(-100px, -100px); 
         will-change: transform;
         opacity: 0; 
+        display: block;
     }
 
     @media (hover: none) and (pointer: coarse) {
-        .mouse-tracer { display: none; }
+        .mouse-tracer { display: none !important; }
     }
 </style>
 
 <div id="mouse-tracer" class="mouse-tracer">👾</div>
 
 <script>
-    const tracer = document.getElementById('mouse-tracer');
-    let isHidden = true; 
+    (function() {
+        const isTouchDevice = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+        const isSmallScreen = window.innerWidth <= 768; 
 
-    document.addEventListener('mousemove', (e) => {
-        if (!tracer) return;
+        const tracer = document.getElementById('mouse-tracer');
 
-        const targetX = e.clientX + 15;
-        const targetY = e.clientY + 15;
-
-        if (isHidden) {
-            tracer.style.transition = 'none'; 
-            
-            tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
-            
-            void tracer.offsetWidth; 
-            
-            tracer.style.transition = 'transform 0.08s ease-out, opacity 0.2s';
-            tracer.style.opacity = '1';
-            
-            isHidden = false; 
-        } else {
-            tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
+        if (isTouchDevice || isSmallScreen) {
+            if (tracer) tracer.style.display = 'none';
+            return; 
         }
-    });
 
-    document.addEventListener('mouseleave', (e) => {
-        if (!tracer) return;
-        
-        isHidden = true;
-        tracer.style.opacity = '0';
+        let isHidden = true;
 
-        let exitX = e.clientX + 15;
-        let exitY = e.clientY + 15;
-        
-        if (e.clientX < 50) exitX = -50;
-        if (e.clientY < 50) exitY = -50;
+        document.addEventListener('mousemove', (e) => {
+            if (!tracer) return;
 
-        tracer.style.transform = `translate(${exitX}px, ${exitY}px)`;
-    });
+            const targetX = e.clientX + 15;
+            const targetY = e.clientY + 15;
+
+            if (isHidden) {
+                tracer.style.transition = 'none'; 
+                tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
+                void tracer.offsetWidth;
+                tracer.style.transition = 'transform 0.08s ease-out, opacity 0.2s';
+                tracer.style.opacity = '1';
+                isHidden = false;
+            } else {
+                tracer.style.transform = `translate(${targetX}px, ${targetY}px)`;
+            }
+        });
+
+        document.addEventListener('mouseleave', (e) => {
+            if (!tracer) return;
+            
+            isHidden = true;
+            tracer.style.opacity = '0';
+
+            let exitX = e.clientX + 15;
+            let exitY = e.clientY + 15;
+            
+            if (e.clientX < 50) exitX = -50;
+            if (e.clientY < 50) exitY = -50;
+
+            tracer.style.transform = `translate(${exitX}px, ${exitY}px)`;
+        });
+    })();
 </script>
 </body>
 </html>
